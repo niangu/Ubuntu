@@ -1,0 +1,112 @@
+ 每天一个linux命令(42)--traceroute命令
+
+　　通过traceroute 我们可以知道信息从你的计算机到互联网另一端的主机是走的什么路径。当然每次数据包由某一同样的出发点（source）到达某一同样的目的地（destination）走的路径可能会不一样，但基本上 来说大部分时候所走的路由是相同的。Linux 系统中个，我们称之为 tracertoute，在 MS  Windows 中为 tracert。 traceroute 通过发送小的数据包到目的设备直到其返回，来测量其需要多长时间。一条路径上的每个设备traceroute要测3次。输出结果中包括每次测试的时间（ms）和设备的名称及其IP地址。
+
+　　在大多数情况下，我们会在 Linux 主机系统下，直接执行命令行。
+
+　　traceroute   hostname
+
+　　而在 Windows 系统下是执行 tracert 的命令：
+
+　　tracert  hostname
+
+　　1.命令格式：
+
+　　　　traceroute　　[参数]　　[主机]
+
+　　2.命令功能：
+
+　　　　traceroute 　　指令让你追踪网络数据包的路由途径，预设数据包大小是40 Bytes, 用户可另行设置。
+
+　　　　具体参数格式：traceroute   [-dFlnrvx] [-f<存活数值>] [-g<网关>][-i<网络界面>][-m<存活数值>][-p<通信端口>][-s<来源地址>][-t<服务类型>][-w<超时秒数>][主机名称或IP地址][数据包大小]
+
+　　3.命令参数
+
+　　-d　　使用socket 层级的排错功能
+
+　　-f　　设置第一个检测数据包的存活数值TTL的大小
+
+　　-F　　设置勿离段位　----我也不知道啥是勿离段位，查了下没查到什么信息^^
+
+　　-g　　设置来源路由网关，最多可设置8个
+
+　　-i　　使用指定的网络界面送出数据包
+
+　　-I　　使用ICMP回应取代UDP资料信息
+
+　　-m　　设置检测数据包的最大存活数值TTL 的大小
+
+　　-n　　直接使用IP地址而非主机名称
+
+　　-p　　设置UDP传输协议的通信端口
+
+　　-r　　忽略普通的routing table　,直接将数据包送到远端主机上
+
+　　-s　　设置本地主机送出数据包的IP地址
+
+　　-t　　设置检测数据包的TOS数值
+
+　　-v　　详细显示指令的执行过程
+
+　　-w　　设置等待远端主机回报的时间
+
+　　-x　　开启或关闭数据包的正确性检验
+
+　　4.使用实例：
+
+　　实例1：traceroute  用法简单，最常用的用法
+
+　　命令：traceroute　　www.google.com
+
+　　说明：
+
+　　　　记录按序列号从1开始，每个记录就是一跳，每跳表示一个网关，我们看到每行有三个时间，单位是 ms,其实就是 -q 的默认参数。探测数据包向每个网关发送三个数据包后，网关响应后返回的时间；如果您用  traceroute -q  4  www.google.com, 表示向每个网关发送4个数据包
+
+　　有时我们 traceroute 一台主机时，会看到有一些行是以星号表示的。出现这种情况，可能是防火墙封掉了 ICMP的返回信息，所以我们得不到什么相关的数据包返回数据。
+
+　　有时我们在某一网关处延时比较长，有可能是某台网关比较阻塞，也可能是物理设备本身的原因，当然如果某台DNS出现问题时，不能解析主机名、域名时，也会有延时长的现象；您可以加 -n  参数来避免DNS 解析，以 IP格式 输出数据。
+
+　　如果在局域网中的不同网段之间，我们可以通过 traceroute 来排查问题所在，是主机的问题还是网关的问题。如果我们通过远程来访问某台服务器遇到问题时，我们用到 traceroute 追踪数据包所经过的网关，提交 IDC 服务商，也有助于解决问题；但目前看来国内解决这样的问题是比较困难的，就是我们发现问题所在，IDC服务商也不可能帮助我们解决。
+
+　　实例2：跳数设置
+
+　　命令：
+
+　　　　traceroute  -m  10 www.baidu.com 　　
+
+　　实例3：只显示IP 地址，不查主机名DNS
+
+　　命令：　　traceroute  -n   www.baidu.com
+
+　　实例4：探测包使用的基本UDP端口设置6888
+
+　　命令：　　traceroute  -p   6888   www.baidu.com
+
+　　实例5：把探测包的个数设置为4个
+
+　　命令：traceroute  -q  4  www.baidu.com
+
+　　实例6：绕过正常的路由表，直接发送到网络相连的主机
+
+　　命令：traceroute  -r   www.baidu.com
+
+　　实例7：把对外发探测包的等待响应时间设置为3秒
+
+　　命令：traceroute    -w   3   www.baidu.com
+
+>>>>>>>>说明一下  traceroute 的工作原理>>>>>>>>>>>>>>
+
+　　traceroute 程序的设计是利用 ICMP 及IP header  的TTL（time to  live）栏位（field）。首先，traceroute 送出一个 TTL 是1 的IP  datagram（每次送的的是3个  40字节的包，包括源地址，目的地址和包发出的时间标签）到目的地，当路径上的第一个路由器（router）收到这个 datagram 时，它将TTL减少 1，此时，TTL变为0了，所以该路径会将次 datagram 丢掉，并送回一个 【ICMP time exceeded】消息，traceroute 收到这个消息后，便知道这个路由器存在于这个路径上，接着traceroute 再送出另一个 TTL为 2 的 datagram ，发现第二个路由器，然后一直重复执行这种操作，直到某个datagram 抵达目的地。
+
+　　在traceroute 送出 UDP datagram 到目的地时，它所选择送达的 port number 是一个一般应用程序都不会用的号码，所以当此UDP datagram到达目的地后该主机会送回一个 ICMP port unreachable  的消息，而当traceroute 收到这个消息时，便知道目的地已经到达，所以 traceroute 在 server 端也就没有所谓的 daemon 程式。
+
+　　traceroute 通过计算 ICMP TTL 到期消息设备的IP 地址并做域名解析。每次，traceroute 都打印出一系列数据，包括所经过的路由设备的域名及 IP 地址，三个包每次来回所花时间。　　
+
+>>>>>>>>>>>>>>>
+
+　　windows下的tracert ，原理和效果都是一样的。这里就不详细赘述了。
+
+ 
+分类: Linux命令学习
+标签: traceroute命令, Linux命令, 每天一个Linux命令
+好文要顶 关注我 收藏该文 

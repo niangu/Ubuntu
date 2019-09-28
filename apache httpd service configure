@@ -1,0 +1,14 @@
+./configure \
+--prefix=/usr/local/httpd24 \
+--with-prce='/usr/local/bin/pcre-config' \
+--with-included-apr \
+--sysconfdir=/etc/httpd24 \
+--enable-so \
+--enable-ssl \
+--enable-cgi \
+--enable-rewrite \
+--with-zlib \
+--with-pcre \
+--with-mpm=prefork \
+--enable-modules=most \
+--enable-mpms-shared=all

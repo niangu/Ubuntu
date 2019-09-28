@@ -1,0 +1,57 @@
+Ubuntu下几种格式的安装包安装方法
+2016年07月13日 11:41:16 a1eafall 阅读数：1828 标签： ubuntu 更多
+个人分类： Linux
+版权声明：本文为博主原创文章，转载请注明出处。 https://blog.csdn.net/a1eafall/article/details/51896676
+1. .deb格式
+
+双击打开直接安装。
+在新版本ubuntu中由于移除啦ubuntu软件中心，并替换成Gnome软件（又改名为ubuntu软件），导致无法直接安装，可使用下面的命令安装（假设安装包位于/home/a1eafall)
+
+$sudo dpkg -i /home/a1eafall/a.deb
+
+    1
+
+2. .bin格式
+
+假设该安装包位于/home/a1eafall/a.bin，则在终端下执行
+
+$cd /home/a1eafall
+
+    1
+
+$sudo chmod u+x a.bin
+
+    1
+
+$sudo ./a.bin
+
+    1
+
+3..tar.gz,tar.xz等
+
+先解压，用命令行或是图形化的方法解压都可以，假设解压目录为/home/a1eafall。
+
+    1
+
+这种格式一般会采用源代码编译安装，或是解压完直接就可以运行的方式，可以通过查看目录内是否有源代码或是configure文件来确实是不是源代码。
+编译安装：使用cd命令进入解压目录。
+
+$./configure                       //配置
+
+    1
+
+$make                              //编译
+
+    1
+
+$make install                      //安装
+
+    1
+
+如果在解压目录下发现/bin/a.sh，就可以直接运行了。
+
+$./a.sh
+
+    1
+
+

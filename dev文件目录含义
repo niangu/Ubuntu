@@ -1,0 +1,29 @@
+
+ubuntu /dev目录下的文件都对应的什么设备
+ 我来答
+分享
+举报 浏览 1349 次
+1个回答
+#照顾好情绪# 生活中哪些事情会让你无比焦虑？
+最佳答案
+j379364372
+2017-02-16
+/dev/hd[a-t]：IDE设备
+/dev/sd[a-z]：SCSI设备
+/dev/fd[0-7]：标准软驱
+/dev/md[0-31]：软raid设备
+dev/loop[0-7]：本地回环设备
+
+/dev/ram[0-15]：内存
+/dev/null：无限数据接收设备,相当于黑洞
+/dev/zero：无限零资源
+/dev/tty[0-63]：虚拟终端
+/dev/ttyS[0-3]：串口
+/dev/lp[0-3]：并口
+/dev/console：控制台
+/dev/fb[0-31]：framebuffer
+/dev/cdrom => /dev/hdc
+/dev/modem => /dev/ttyS[0-9]
+/dev/pilot => /dev/ttyS[0-9]
+/dev/random：随机数设备
+/dev/urandom：随机数设备 

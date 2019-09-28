@@ -1,0 +1,5 @@
+下面的程序，是将dir1目录中所有文件，在目录dir2中建立硬链接
+
+$mkdir dir2
+$ln /home/longcheng/dir1/* /home/longcheng/dir2
+

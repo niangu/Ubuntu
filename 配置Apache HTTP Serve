@@ -1,0 +1,84 @@
+首页 / linux运维
+如何在Ubuntu 16.04下面配置Apache HTTP Serve
+作者:PHP中文网2017-10-11 09:27:57
+介绍：
+
+Apache HTTP Server是Apache软件基金会的一个开放源码的网页服务器，可以在大多数计算机操作系统中运行，由于其多平台和安全性被广泛使用，是最流行的Web服务器端软件之一。在本篇文章中我将会介绍如何在Ubuntu 16.04上面安装Apache HTTP Server。
+
+第一步：安装Apache
+
+Apache可以在Ubuntu的默认软件库中获得。首先你需要更新本地的包：
+$ sudo apt-get update
+
+然后下载并安装Apache：
+$ sudo apt-get install apache2
+
+第二步：调整防火墙
+
+在我们测试Apache之前，我们需要修改防火墙以便让外部可以访问到默认的Web端口，Apache本身提供了一些配置文件，输入以下命令可以查看ufw应用配置文件：
+$ sudo ufw app list
+
+可以看到与Apache有关的有三个文件：
+
+    Apache：开放80端口
+
+    Apache Full：开放80和443端口
+
+    Apache Secure：开放443端口
+
+之后我们更改防火墙配置信息：
+$ sudo ufw allow 'Apache Full'
+
+启动防火墙：
+$ sudo ufw enable
+
+查看ufw状态：
+$ sudo ufw status
+
+第三步：检查Web服务器
+
+查看Web服务器的状态：
+$ sudo systemctl status apache2
+
+你可以通过域名或者IP地址访问Apache的默认网页来查看Apache是否正常运行，查看服务器的IP地址：
+
+    $ hostname -I
+
+    你会得到一些用空格分开的IP地址，将其中一个复制到你的浏览器中你将会得到以下页面：
+
+
+    这样，你的Apache已经配置完毕。
+
+    以上就是如何在Ubuntu 16.04下面配置Apache HTTP Serve的详细内容，更多请关注php中文网其它相关文章！
+    标签： 配置Ubuntu16.04
+
+    上一篇：Linux中文件目录结构的详细介绍
+
+    下一篇：linux中关于pmap的命令实例分析
+
+为您推荐
+Python开发如何在ubuntu 15.10 上配置vim
+
+PHP中文网 版权所有
+
+©Copyright 2014-2018 http://m.php.cn/ All Rights Reserved | 皖B2-20150071-9
+
+
+
+
+ubuntu启动、重启、关闭apache服务
+2017年07月06日 15:53:03 myth_wm 阅读数：1758更多
+个人分类： Ubuntu
+
+Start Apache 2 Server /启动apache服务
+$ sudo /etc/init.d/apache2 start
+
+
+Restart Apache 2 Server /重启apache服务
+$ sudo /etc/init.d/apache2 restart
+
+
+Stop Apache 2 Server /停止apache服务
+$ sudo /etc/init.d/apache2 stop
+
+

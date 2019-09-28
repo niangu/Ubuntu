@@ -1,0 +1,30 @@
+# interfaces(5) file used by ifup(8) and ifdown(8)
+#auto lo
+#iface lo inet loopback
+auto lo
+auto enp2s0 enp2s0:1
+iface lo inet loopback
+iface enp2s0 inet static
+      address 192.168.00.00
+      network 192.168.43.0
+      netmask 255.255.255.0
+      broadcast 192.168.43.255
+      gateway 192.168.43.1
+iface enp2s0:1 inet static
+      address 192.168.123.45
+      network 192.168.123.34
+      netmask 255.255.255.0
+      broadcast 192.165.33.45
+      gateway 192.168.34.67
+auto wlp3s0 wlp3s0:1
+iface wlp3s0 inet static
+address 192.168.1.100
+netmask 255.255.255.0
+gateway 192.168.1.1
+iface wlp3s0:1 inet static
+      address 192.168.22.56
+      network 192.168.00.32
+      netmask 255.255.255.0
+      broadcast 192.168.22.45
+      gateway 192.168.43.1
+~                        
